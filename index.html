@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.5">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.7px Arial; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;title&gt;Birthday Cake Stacker Extreme!&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;style&gt;</span></p>
+<p class="p1"><span class="s1">        body {</span></p>
+<p class="p1"><span class="s1">            margin: 0;</span></p>
+<p class="p1"><span class="s1">            padding: 0;</span></p>
+<p class="p1"><span class="s1">            background: #a3e2ff;</span></p>
+<p class="p1"><span class="s1">            font-family: 'Arial', sans-serif;</span></p>
+<p class="p1"><span class="s1">            display: flex;</span></p>
+<p class="p1"><span class="s1">            justify-content: center;</span></p>
+<p class="p1"><span class="s1">            align-items: center;</span></p>
+<p class="p1"><span class="s1">            height: 100vh;</span></p>
+<p class="p1"><span class="s1">            overflow: hidden;</span></p>
+<p class="p1"><span class="s1">            user-select: none;</span></p>
+<p class="p1"><span class="s1">            touch-action: none;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        #gameContainer {</span></p>
+<p class="p1"><span class="s1">            position: relative;</span></p>
+<p class="p1"><span class="s1">            width: 400px;</span></p>
+<p class="p1"><span class="s1">            height: 600px;</span></p>
+<p class="p1"><span class="s1">            background: #e0f4ff;</span></p>
+<p class="p1"><span class="s1">            box-shadow: 0 10px 30px rgba(0,0,0,0.2);</span></p>
+<p class="p1"><span class="s1">            border-radius: 12px;</span></p>
+<p class="p1"><span class="s1">            overflow: hidden;</span></p>
+<p class="p1"><span class="s1">            touch-action: none;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        canvas {</span></p>
+<p class="p1"><span class="s1">            display: block;</span></p>
+<p class="p1"><span class="s1">            background: linear-gradient(to bottom, #87CEEB, #E0F6FF);</span></p>
+<p class="p1"><span class="s1">            width: 100%;</span></p>
+<p class="p1"><span class="s1">            height: 100%;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        .screen {</span></p>
+<p class="p1"><span class="s1">            position: absolute;</span></p>
+<p class="p1"><span class="s1">            top: 0;</span></p>
+<p class="p1"><span class="s1">            left: 0;</span></p>
+<p class="p1"><span class="s1">            width: 100%;</span></p>
+<p class="p1"><span class="s1">            height: 100%;</span></p>
+<p class="p1"><span class="s1">            display: flex;</span></p>
+<p class="p1"><span class="s1">            flex-direction: column;</span></p>
+<p class="p1"><span class="s1">            justify-content: center;</span></p>
+<p class="p1"><span class="s1">            align-items: center;</span></p>
+<p class="p1"><span class="s1">            box-sizing: border-box;</span></p>
+<p class="p1"><span class="s1">            z-index: 10;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        #startScreen {</span></p>
+<p class="p1"><span class="s1">            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);</span></p>
+<p class="p1"><span class="s1">            padding: 20px;</span></p>
+<p class="p1"><span class="s1">            text-align: center;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        h1 {</span></p>
+<p class="p1"><span class="s1">            color: #ff5722;</span></p>
+<p class="p1"><span class="s1">            font-size: 32px;</span></p>
+<p class="p1"><span class="s1">            margin: 0 0 5px 0;</span></p>
+<p class="p1"><span class="s1">            text-shadow: 2px 2px #ffe0b2;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        .subtitle {</span></p>
+<p class="p1"><span class="s1">            font-size: 18px;</span></p>
+<p class="p1"><span class="s1">            color: #795548;</span></p>
+<p class="p1"><span class="s1">            margin-bottom: 15px;</span></p>
+<p class="p1"><span class="s1">            font-weight: bold;</span></p>
+<p class="p1"><span class="s1">            letter-spacing: 2px;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        .watermark {</span></p>
+<p class="p1"><span class="s1">            font-size: 11px;</span></p>
+<p class="p1"><span class="s1">            font-weight: bold;</span></p>
+<p class="p1"><span class="s1">            color: #ff7300;</span></p>
+<p class="p1"><span class="s1">            text-shadow: 0 0 4px #ffaa00, 0 0 8px #ff5500;</span></p>
+<p class="p1"><span class="s1">            letter-spacing: 1px;</span></p>
+<p class="p1"><span class="s1">            margin-top: 8px;</span></p>
+<p class="p1"><span class="s1">            margin-bottom: 4px;</span></p>
+<p class="p1"><span class="s1">            animation: pulse Glow 2s infinite ease-in-out;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        @keyframes pulseGlow {</span></p>
+<p class="p1"><span class="s1">            0% { text-shadow: 0 0 3px #ffaa00, 0 0 6px #ff5500; opacity: 0.9; }</span></p>
+<p class="p1"><span class="s1">            50% { text-shadow: 0 0 6px #ffaa00, 0 0 12px #ff2600, 0 0 16px #ff0000; opacity: 1; }</span></p>
+<p class="p1"><span class="s1">            100% { text-shadow: 0 0 3px #ffaa00, 0 0 6px #ff5500; opacity: 0.9; }</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        #startBtn {</span></p>
+<p class="p1"><span class="s1">            padding: 13px 45px;</span></p>
+<p class="p1"><span class="s1">            font-size: 22px;</span></p>
+<p class="p1"><span class="s1">            font-weight: bold;</span></p>
+<p class="p1"><span class="s1">            color: white;</span></p>
+<p class="p1"><span class="s1">            background: #4caf50;</span></p>
+<p class="p1"><span class="s1">            border: none;</span></p>
+<p class="p1"><span class="s1">            border-radius: 50px;</span></p>
+<p class="p1"><span class="s1">            cursor: pointer;</span></p>
+<p class="p1"><span class="s1">            box-shadow: 0 6px #2e7d32;</span></p>
+<p class="p1"><span class="s1">            transition: 0.1s;</span></p>
+<p class="p1"><span class="s1">            position: relative;</span></p>
+<p class="p1"><span class="s1">            z-index: 20;</span></p>
+<p class="p1"><span class="s1">            margin-top: 5px;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        #startBtn:active {</span></p>
+<p class="p1"><span class="s1">            transform: translateY(4px);</span></p>
+<p class="p1"><span class="s1">            box-shadow: 0 2px #2e7d32;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        #ui {</span></p>
+<p class="p1"><span class="s1">            position: absolute;</span></p>
+<p class="p1"><span class="s1">            top: 15px;</span></p>
+<p class="p1"><span class="s1">            left: 15px;</span></p>
+<p class="p1"><span class="s1">            font-size: 20px;</span></p>
+<p class="p1"><span class="s1">            font-weight: bold;</span></p>
+<p class="p1"><span class="s1">            color: #333;</span></p>
+<p class="p1"><span class="s1">            pointer-events: none;</span></p>
+<p class="p1"><span class="s1">            display: none;</span></p>
+<p class="p1"><span class="s1">            z-index: 2;</span></p>
+<p class="p1"><span class="s1">            background: rgba(255, 255, 255, 0.7);</span></p>
+<p class="p1"><span class="s1">            padding: 5px 12px;</span></p>
+<p class="p1"><span class="s1">            border-radius: 20px;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        #perfectPopup {</span></p>
+<p class="p1"><span class="s1">            position: absolute;</span></p>
+<p class="p1"><span class="s1">            top: 40%;</span></p>
+<p class="p1"><span class="s1">            left: 50%;</span></p>
+<p class="p1"><span class="s1">            transform: translate(-50%, -50%) scale(0);</span></p>
+<p class="p1"><span class="s1">            font-size: 36px;</span></p>
+<p class="p1"><span class="s1">            font-weight: bold;</span></p>
+<p class="p1"><span class="s1">            color: #ff1493;</span></p>
+<p class="p1"><span class="s1">            text-shadow: 2px 2px 0px #fff;</span></p>
+<p class="p1"><span class="s1">            pointer-events: none;</span></p>
+<p class="p1"><span class="s1">            z-index: 3;</span></p>
+<p class="p1"><span class="s1">            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        .pop { transform: translate(-50%, -50%) scale(1.3) !important; }</span></p>
+<p class="p1"><span class="s1">    &lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div id="gameContainer"&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;!-- PERFECT ALIGNMENT UI POPUP --&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;div id="perfectPopup"&gt;PERFECT! +3&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    &lt;!-- START SCREEN --&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;div id="startScreen" class="screen"&gt;</span></p>
+<p class="p1"><span class="s1">        &lt;h1&gt;HAPPY 8TH BIRTHDAY!&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1">        &lt;div class="subtitle"&gt;🎂 CAKE STACKER 🎂&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">        </span></p>
+<p class="p1"><span class="s1">        &lt;svg width="240" height="260" viewBox="0 0 240 260" style="margin-bottom:5px;"&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;circle cx="30" cy="40" r="4" fill="#ffeb3b" /&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;circle cx="210" cy="50" r="5" fill="#e91e63" /&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;circle cx="40" cy="180" r="3" fill="#00bcd4" /&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;circle cx="200" cy="160" r="4" fill="#4caf50" /&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;g transform="translate(120, 85) rotate(14)"&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;rect x="-60" y="-15" width="120" height="25" fill="#e91e63" rx="4"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;path d="M-60,-5 Q-45,5 -30,-5 Q-15,5 0,-5 Q15,5 30,-5 Q45,5 60,-5 L60,-15 L-60,-15 Z" fill="#ffffff"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;rect x="-45" y="-35" width="90" height="22" fill="#9c27b0" rx="4"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;path d="M-45,-27 Q-30,-20 -15,-27 Q0,-20 15,-27 Q30,-20 45,-27 L45,-35 L-45,-35 Z" fill="#ffffb2"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;rect x="-30" y="-53" width="60" height="20" fill="#00bcd4" rx="4"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;path d="M-30,-47 Q-15,-42 0,-47 Q15,-42 30,-47 L30,-53 L-30,-53 Z" fill="#ffb6c1"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;path d="M-5,-73 Q0,-78 5,-73 Q5,-65 -5,-61 Q5,-57 5,-49 Q0,-44 -5,-49 Q-10,-57 0,-61 Q-10,-65 -5,-73 Z" fill="none" stroke="#ff9800" stroke-width="4"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;path d="M0,-77 Q-4,-84 0,-92 Q4,-84 0,-77 Z" fill="#ff5722"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;path d="M0,-79 Q-2,-83 0,-88 Q2,-83 0,-79 Z" fill="#ffeb3b"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;line x1="-75" y1="-40" x2="-65" y2="-55" stroke="#795548" stroke-width="2" stroke-dasharray="4,4"/&gt;</span></p>
+<p class="p1"><span class="s1">                &lt;line x1="75" y1="-40" x2="65" y2="-55" stroke="#795548" stroke-width="2" stroke-dasharray="4,4"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;/g&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;path d="M 85 165 Q 75 160 80 150" fill="none" stroke="#00bcd4" stroke-width="2"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;path d="M 155 165 Q 165 160 160 150" fill="none" stroke="#00bcd4" stroke-width="2"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;circle cx="120" cy="180" r="18" fill="#fff" stroke="#2c3e50" stroke-width="4"/&gt; </span></p>
+<p class="p1"><span class="s1">            &lt;ellipse cx="113" cy="176" rx="2" ry="3" fill="#2c3e50"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;ellipse cx="127" cy="176" rx="2" ry="3" fill="#2c3e50"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;path d="M 110 168 Q 113 165 116 168" fill="none" stroke="#2c3e50" stroke-width="2"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;path d="M 124 168 Q 127 165 130 168" fill="none" stroke="#2c3e50" stroke-width="2"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;path d="M 112 188 Q 120 180 128 188" fill="none" stroke="#e74c3c" stroke-width="3"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;line x1="120" y1="198" x2="120" y2="245" stroke="#2c3e50" stroke-width="4"/&gt; </span></p>
+<p class="p1"><span class="s1">            &lt;path d="M 120 205 Q 90 195 80 170" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;path d="M 120 205 Q 150 195 160 170" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;path d="M 120 245 L 105 275" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/&gt;</span></p>
+<p class="p1"><span class="s1">            &lt;path d="M 120 245 L 135 275" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/&gt;</span></p>
+<p class="p1"><span class="s1">        &lt;/svg&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        &lt;!-- GLOWING ORANGE BRAND WATERMARK --&gt;</span></p>
+<p class="p1"><span class="s1">        &lt;div class="watermark"&gt;Made by BlaizGamingIndustries&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">        </span></p>
+<p class="p1"><span class="s1">        &lt;button id="startBtn"&gt;START GAME&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    &lt;!-- GAME CANVAS --&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;canvas id="gameCanvas" width="400" height="600"&gt;&lt;/canvas&gt;</span></p>
+<p class="p1"><span class="s1">    </span></p>
+<p class="p1"><span class="s1">    &lt;!-- IN-GAME SCORE &amp; HIGHSCORE UI --&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;div id="ui"&gt;Layers: &lt;span id="score"&gt;0&lt;/span&gt; | Best: &lt;span id="highScore"&gt;0&lt;/span&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p1"><span class="s1">    const canvas = document.getElementById('gameCanvas');</span></p>
+<p class="p1"><span class="s1">    const ctx = canvas.getContext('2d');</span></p>
+<p class="p1"><span class="s1">    const startScreen = document.getElementById('startScreen');</span></p>
+<p class="p1"><span class="s1">    const startBtn = document.getElementById('startBtn');</span></p>
+<p class="p1"><span class="s1">    const ui = document.getElementById('ui');</span></p>
+<p class="p1"><span class="s1">    const scoreDisplay = document.getElementById('score');</span></p>
+<p class="p1"><span class="s1">    const highScoreDisplay = document.getElementById('highScore');</span></p>
+<p class="p1"><span class="s1">    const container = document.getElementById('gameContainer');</span></p>
+<p class="p1"><span class="s1">    const perfectPopup = document.getElementById('perfectPopup');</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    let gameActive = false;</span></p>
+<p class="p1"><span class="s1">    let score = 0;</span></p>
+<p class="p1"><span class="s1">    let highScore = localStorage.getItem('cakeHighScore') ? parseInt(localStorage.getItem('cakeHighScore')) : 0;</span></p>
+<p class="p1"><span class="s1">    let currentWobble = 0;</span></p>
+<p class="p1"><span class="s1">    let wobbleSpeed = 0.07;</span></p>
+<p class="p1"><span class="s1">    </span></p>
+<p class="p1"><span class="s1">    let claw = {</span></p>
+<p class="p1"><span class="s1">        x: 200,</span></p>
+<p class="p1"><span class="s1">        y: 40,</span></p>
+<p class="p1"><span class="s1">        width: 60,</span></p>
+<p class="p1"><span class="s1">        speed: 4.0,</span></p>
+<p class="p1"><span class="s1">        direction: 1</span></p>
+<p class="p1"><span class="s1">    };</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    let activeLayer = null;</span></p>
+<p class="p1"><span class="s1">    const plate = { x: 130, y: 530, width: 140, height: 15 };</span></p>
+<p class="p1"><span class="s1">    let stack = [];</span></p>
+<p class="p1"><span class="s1">    let fireworks = [];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    const cakeColors = ['#ff6b6b', '#feca57', '#ff9ff3', '#1dd1a1', '#fa8231', '#a855f7'];</span></p>
+<p class="p1"><span class="s1">    const frostingColors = ['#ffffff', '#ffb6c1', '#f5f6fa', '#ffeaa7'];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    highScoreDisplay.innerText = highScore;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function createNewLayer() {</span></p>
+<p class="p1"><span class="s1">        if (score &gt;= 30) {</span></p>
+<p class="p1"><span class="s1">            activeLayer = null; </span></p>
+<p class="p1"><span class="s1">            return;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        const width = Math.max(65, 130 - score * 2.5);</span></p>
+<p class="p1"><span class="s1">        activeLayer = {</span></p>
+<p class="p1"><span class="s1">            x: claw.x - width / 2,</span></p>
+<p class="p1"><span class="s1">            y: claw.y + 20,</span></p>
+<p class="p1"><span class="s1">            width: width,</span></p>
+<p class="p1"><span class="s1">            height: 35,</span></p>
+<p class="p1"><span class="s1">            isDropping: false,</span></p>
+<p class="p1"><span class="s1">            speedY: 12, </span></p>
+<p class="p1"><span class="s1">            color: cakeColors[Math.floor(Math.random() * cakeColors.length)],</span></p>
+<p class="p1"><span class="s1">            frostingColor: frostingColors[Math.floor(Math.random() * frostingColors.length)],</span></p>
+<p class="p1"><span class="s1">            offset: 0</span></p>
+<p class="p1"><span class="s1">        };</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function triggerDrop(e) {</span></p>
+<p class="p1"><span class="s1">        if (!gameActive || !activeLayer || activeLayer.isDropping) return;</span></p>
+<p class="p1"><span class="s1">        if (e) { e.preventDefault(); e.stopPropagation(); }</span></p>
+<p class="p1"><span class="s1">        activeLayer.isDropping = true;</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    container.addEventListener('touchstart', triggerDrop, { passive: false });</span></p>
+<p class="p1"><span class="s1">    container.addEventListener('mousedown', triggerDrop);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function startGame(e) {</span></p>
+<p class="p1"><span class="s1">        if (e) { e.preventDefault(); e.stopPropagation(); }</span></p>
+<p class="p1"><span class="s1">        startScreen.style.display = 'none';</span></p>
+<p class="p1"><span class="s1">        ui.style.display = 'block';</span></p>
+<p class="p1"><span class="s1">        resetGame();</span></p>
+<p class="p1"><span class="s1">        gameActive = true;</span></p>
+<p class="p1"><span class="s1">        animate();</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    startBtn.addEventListener('touchend', startGame, { passive: false });</span></p>
+<p class="p1"><span class="s1">    startBtn.addEventListener('click', startGame);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function resetGame() {</span></p>
+<p class="p1"><span class="s1">        score = 0;</span></p>
+<p class="p1"><span class="s1">        currentWobble = 0;</span></p>
+<p class="p1"><span class="s1">        scoreDisplay.innerText = score;</span></p>
+<p class="p1"><span class="s1">        highScoreDisplay.innerText = highScore;</span></p>
+<p class="p1"><span class="s1">        stack = [];</span></p>
+<p class="p1"><span class="s1">        fireworks = [];</span></p>
+<p class="p1"><span class="s1">        claw.speed = 4.0;</span></p>
+<p class="p1"><span class="s1">        createNewLayer();</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function spawnFirework() {</span></p>
+<p class="p1"><span class="s1">        const x = Math.random() * canvas.width;</span></p>
+<p class="p1"><span class="s1">        const y = Math.random() * (canvas.height / 2);</span></p>
+<p class="p1"><span class="s1">        const colors = ['#ff0055', '#00ffcc', '#ffcc00', '#ff00ff', '#00ff00'];</span></p>
+<p class="p1"><span class="s1">        const color = colors[Math.floor(Math.random() * colors.length)];</span></p>
+<p class="p1"><span class="s1">        </span></p>
+<p class="p1"><span class="s1">        for (let i = 0; i &lt; 30; i++) {</span></p>
+<p class="p1"><span class="s1">            const angle = Math.random() * Math.PI * 2;</span></p>
+<p class="p1"><span class="s1">            const velocity = Math.random() * 5 + 2;</span></p>
+<p class="p1"><span class="s1">            fireworks.push({</span></p>
+<p class="p1"><span class="s1">                x: x, y: y,</span></p>
+<p class="p1"><span class="s1">                vx: Math.cos(angle) * velocity,</span></p>
+<p class="p1"><span class="s1">                vy: Math.sin(angle) * velocity,</span></p>
+<p class="p1"><span class="s1">                alpha: 1,</span></p>
+<p class="p1"><span class="s1">                color: color</span></p>
+<p class="p1"><span class="s1">            });</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function handleFireworks() {</span></p>
+<p class="p1"><span class="s1">        for (let i = fireworks.length - 1; i &gt;= 0; i--) {</span></p>
+<p class="p1"><span class="s1">            let p = fireworks[i];</span></p>
+<p class="p1"><span class="s1">            p.x += p.vx;</span></p>
+<p class="p1"><span class="s1">            p.y += p.vy;</span></p>
+<p class="p1"><span class="s1">            p.vy += 0.05; </span></p>
+<p class="p1"><span class="s1">            p.alpha -= 0.015;</span></p>
+<p class="p1"><span class="s1">            </span></p>
+<p class="p1"><span class="s1">            ctx.save();</span></p>
+<p class="p1"><span class="s1">            ctx.globalAlpha = p.alpha;</span></p>
+<p class="p1"><span class="s1">            ctx.fillStyle = p.color;</span></p>
+<p class="p1"><span class="s1">            ctx.beginPath();</span></p>
+<p class="p1"><span class="s1">            ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);</span></p>
+<p class="p1"><span class="s1">            ctx.fill();</span></p>
+<p class="p1"><span class="s1">            ctx.restore();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">            if (p.alpha &lt;= 0) fireworks.splice(i, 1);</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        if (Math.random() &lt; 0.05) spawnFirework();</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function updateHighScore() {</span></p>
+<p class="p1"><span class="s1">        if (score &gt; highScore) {</span></p>
+<p class="p1"><span class="s1">            highScore = score;</span></p>
+<p class="p1"><span class="s1">            localStorage.setItem('cakeHighScore', highScore);</span></p>
+<p class="p1"><span class="s1">            highScoreDisplay.innerText = highScore;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function animate() {</span></p>
+<p class="p1"><span class="s1">        ctx.clearRect(0, 0, canvas.width, canvas.height);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        let totalOffset = 0;</span></p>
+<p class="p1"><span class="s1">        stack.forEach((layer) =&gt; {</span></p>
+<p class="p1"><span class="s1">            totalOffset += layer.offset;</span></p>
+<p class="p1"><span class="s1">        });</span></p>
+<p class="p1"><span class="s1">        </span></p>
+<p class="p1"><span class="s1">        if (stack.length &gt; 0 &amp;&amp; score &lt; 30 &amp;&amp; Math.abs(totalOffset) &gt; 20) {</span></p>
+<p class="p1"><span class="s1">            let severity = (Math.abs(totalOffset) - 20) / 25; </span></p>
+<p class="p1"><span class="s1">            currentWobble = Math.sin(Date.now() * wobbleSpeed) * (severity * 22);</span></p>
+<p class="p1"><span class="s1">            </span></p>
+<p class="p1"><span class="s1">            if (Math.abs(totalOffset) &gt; 45) {</span></p>
+<p class="p1"><span class="s1">                gameOver(`💥 OH NO! The tower got too un-centered, wobbled out of control, and TOPPLED!`);</span></p>
+<p class="p1"><span class="s1">                return;</span></p>
+<p class="p1"><span class="s1">            }</span></p>
+<p class="p1"><span class="s1">        } else {</span></p>
+<p class="p1"><span class="s1">            currentWobble = 0; </span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        // 1. Draw Plate</span></p>
+<p class="p1"><span class="s1">        ctx.fillStyle = '#ced6e0';</span></p>
+<p class="p1"><span class="s1">        ctx.beginPath();</span></p>
+<p class="p1"><span class="s1">        ctx.ellipse(plate.x + plate.width/2, plate.y + plate.height/2, plate.width/2, plate.height, 0, 0, Math.PI * 2);</span></p>
+<p class="p1"><span class="s1">        ctx.fill();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        // 2. Move &amp; Draw Claw</span></p>
+<p class="p1"><span class="s1">        if (activeLayer &amp;&amp; !activeLayer.isDropping) {</span></p>
+<p class="p1"><span class="s1">            claw.x += claw.speed * claw.direction;</span></p>
+<p class="p1"><span class="s1">            if (claw.x &gt; canvas.width - 40 || claw.x &lt; 40) claw.direction *= -1;</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">        </span></p>
+<p class="p1"><span class="s1">        ctx.strokeStyle = '#2f3542';</span></p>
+<p class="p1"><span class="s1">        ctx.lineWidth = 3;</span></p>
+<p class="p1"><span class="s1">        ctx.beginPath();</span></p>
+<p class="p1"><span class="s1">        ctx.moveTo(claw.x, 0);</span></p>
+<p class="p1"><span class="s1">        ctx.lineTo(claw.x, claw.y);</span></p>
+<p class="p1"><span class="s1">        ctx.stroke();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        ctx.fillStyle = '#747d8c';</span></p>
+<p class="p1"><span class="s1">        ctx.fillRect(claw.x - 20, claw.y, 40, 10);</span></p>
+<p class="p1"><span class="s1">        ctx.fillRect(claw.x - 25, claw.y, 8, 20);</span></p>
+<p class="p1"><span class="s1">        ctx.fillRect(claw.x + 17, claw.y, 8, 20);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        // 3. Draw Stacked Layers</span></p>
+<p class="p1"><span class="s1">        stack.forEach((layer, idx) =&gt; {</span></p>
+<p class="p1"><span class="s1">            let wobbleShift = (idx / stack.length) * currentWobble;</span></p>
+<p class="p1"><span class="s1">            drawCake(layer.x + wobbleShift, layer.y, layer.width, layer.height, layer.color, layer.frostingColor, idx === 29);</span></p>
+<p class="p1"><span class="s1">        });</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        // 4. Handle Fireworks</span></p>
+<p class="p1"><span class="s1">        if (score &gt;= 30) {</span></p>
+<p class="p1"><span class="s1">            handleFireworks();</span></p>
+<p class="p1"><span class="s1">            if (fireworks.length === 0 &amp;&amp; gameActive) {</span></p>
+<p class="p1"><span class="s1">                gameActive = false;</span></p>
+<p class="p1"><span class="s1">                updateHighScore();</span></p>
+<p class="p1"><span class="s1">                alert(`🎉 AMAZING! You reached 30 layers and placed the final birthday candle! Happy 8th Birthday! 🎂`);</span></p>
+<p class="p1"><span class="s1">                startScreen.style.display = 'flex';</span></p>
+<p class="p1"><span class="s1">                ui.style.display = 'none';</span></p>
+<p class="p1"><span class="s1">                return;</span></p>
+<p class="p1"><span class="s1">            }</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        // 5. Handle Active Layer Drop Physics</span></p>
+<p class="p1"><span class="s1">        if (activeLayer) {</span></p>
+<p class="p1"><span class="s1">            if (!activeLayer.isDropping) {</span></p>
+<p class="p1"><span class="s1">                activeLayer.x = claw.x - activeLayer.width / 2;</span></p>
+<p class="p1"><span class="s1">            } else {</span></p>
+<p class="p1"><span class="s1">                activeLayer.y += activeLayer.speedY;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">                let targetY = plate.y - activeLayer.height;</span></p>
+<p class="p1"><span class="s1">                let targetWidth = plate.width;</span></p>
+<p class="p1"><span class="s1">                let targetX = plate.x;</span></p>
+<p class="p1"><span class="s1">                let targetCenterX = plate.x + plate.width / 2;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">                if (stack.length &gt; 0) {</span></p>
+<p class="p1"><span class="s1">                    const topLayer = stack[stack.length - 1];</span></p>
+<p class="p1"><span class="s1">                    targetY = topLayer.y - activeLayer.height;</span></p>
+<p class="p1"><span class="s1">                    targetWidth = topLayer.width;</span></p>
+<p class="p1"><span class="s1">                    targetX = topLayer.x;</span></p>
+<p class="p1"><span class="s1">                    targetCenterX = topLayer.x + topLayer.width / 2;</span></p>
+<p class="p1"><span class="s1">                }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">                if (activeLayer.y &gt;= targetY) {</span></p>
+<p class="p1"><span class="s1">                    activeLayer.y = targetY;</span></p>
+<p class="p1"><span class="s1">                    </span></p>
+<p class="p1"><span class="s1">                    const layerCenter = activeLayer.x + activeLayer.width / 2;</span></p>
+<p class="p1"><span class="s1">                    const halfW = activeLayer.width / 2;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">                    if (layerCenter + halfW &gt; targetX &amp;&amp; layerCenter - halfW &lt; targetX + targetWidth) {</span></p>
+<p class="p1"><span class="s1">                        let missOffset = layerCenter - targetCenterX;</span></p>
+<p class="p1"><span class="s1">                        activeLayer.offset = missOffset;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">                        if (Math.abs(missOffset) &lt;= 11) {</span></p>
+<p class="p1"><span class="s1">                            score += 3; </span></p>
+<p class="p1"><span class="s1">                            showPerfectIndicator();</span></p>
+<p class="p1"><span class="s1">                        } else {</span></p>
+<p class="p1"><span class="s1">                            score += 1; </span></p>
+<p class="p1"><span class="s1">                        }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">                        stack.push(activeLayer);</span></p>
+<p class="p1"><span class="s1">                        scoreDisplay.innerText = score;</span></p>
+<p class="p1"><span class="s1">                        updateHighScore();</span></p>
+<p class="p1"><span class="s1">                        claw.speed += 0.35; </span></p>
+<p class="p1"><span class="s1">                        </span></p>
+<p class="p1"><span class="s1">                        if (stack.length &gt; 5) {</span></p>
+<p class="p1"><span class="s1">                            stack.forEach(l =&gt; l.y += 35);</span></p>
+<p class="p1"><span class="s1">                        }</span></p>
+<p class="p1"><span class="s1">                        </span></p>
+<p class="p1"><span class="s1">                        if (score &gt;= 30) {</span></p>
+<p class="p1"><span class="s1">                            spawnFirework();</span></p>
+<p class="p1"><span class="s1">                        } else {</span></p>
+<p class="p1"><span class="s1">                            createNewLayer();</span></p>
+<p class="p1"><span class="s1">                        }</span></p>
+<p class="p1"><span class="s1">                    } else {</span></p>
+<p class="p1"><span class="s1">                        gameOver(`💥 BOOM! You completely missed the stack and dropped the cake!`);</span></p>
+<p class="p1"><span class="s1">                    }</span></p>
+<p class="p1"><span class="s1">                }</span></p>
+<p class="p1"><span class="s1">            }</span></p>
+<p class="p1"><span class="s1">            drawCake(activeLayer.x, activeLayer.y, activeLayer.width, activeLayer.height, activeLayer.color, activeLayer.frostingColor, false);</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        if (gameActive || fireworks.length &gt; 0) {</span></p>
+<p class="p1"><span class="s1">            requestAnimationFrame(animate);</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function showPerfectIndicator() {</span></p>
+<p class="p1"><span class="s1">        perfectPopup.classList.add('pop');</span></p>
+<p class="p1"><span class="s1">        setTimeout(() =&gt; {</span></p>
+<p class="p1"><span class="s1">            perfectPopup.classList.remove('pop');</span></p>
+<p class="p1"><span class="s1">        }, 600);</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function drawCake(x, y, w, h, color, frosting, hasCandle) {</span></p>
+<p class="p1"><span class="s1">        ctx.fillStyle = color;</span></p>
+<p class="p1"><span class="s1">        ctx.beginPath();</span></p>
+<p class="p1"><span class="s1">        ctx.roundRect(x, y, w, h, 6);</span></p>
+<p class="p1"><span class="s1">        ctx.fill();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        ctx.fillStyle = frosting;</span></p>
+<p class="p1"><span class="s1">        ctx.fillRect(x, y + 4, w, 8);</span></p>
+<p class="p1"><span class="s1">        for(let i = 0; i &lt; w; i += 15) {</span></p>
+<p class="p1"><span class="s1">            ctx.beginPath();</span></p>
+<p class="p1"><span class="s1">            ctx.arc(x + i + 5, y + 12, 5, 0, Math.PI);</span></p>
+<p class="p1"><span class="s1">            ctx.fill();</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        if (hasCandle) {</span></p>
+<p class="p1"><span class="s1">            let cx = x + w / 2;</span></p>
+<p class="p1"><span class="s1">            ctx.fillStyle = '#ff9800';</span></p>
+<p class="p1"><span class="s1">            ctx.fillRect(cx - 4, y - 20, 8, 20);</span></p>
+<p class="p1"><span class="s1">            ctx.fillStyle = '#ff5722';</span></p>
+<p class="p1"><span class="s1">            ctx.beginPath();</span></p>
+<p class="p1"><span class="s1">            ctx.arc(cx, y - 25, 5, 0, Math.PI * 2);</span></p>
+<p class="p1"><span class="s1">            ctx.fill();</span></p>
+<p class="p1"><span class="s1">            ctx.fillStyle = '#ffeb3b';</span></p>
+<p class="p1"><span class="s1">            ctx.beginPath();</span></p>
+<p class="p1"><span class="s1">            ctx.arc(cx, y - 23, 2, 0, Math.PI * 2);</span></p>
+<p class="p1"><span class="s1">            ctx.fill();</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    function gameOver(message) {</span></p>
+<p class="p1"><span class="s1">        gameActive = false;</span></p>
+<p class="p1"><span class="s1">        updateHighScore();</span></p>
+<p class="p1"><span class="s1">        alert(`${message}\n🎉 Final Score: ${score} points!`);</span></p>
+<p class="p1"><span class="s1">        startScreen.style.display = 'flex';</span></p>
+<p class="p1"><span class="s1">        ui.style.display = 'none';</span></p>
+<p class="p1"><span class="s1">    }</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+</body>
+</html>
