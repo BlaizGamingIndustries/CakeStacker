@@ -1,991 +1,496 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Birthday Cake Stacker Extreme!</title>
-
-    <style>
-
-        body {
-
-            margin: 0;
-
-            padding: 0;
-
-            background: #a3e2ff;
-
-            font-family: 'Arial', sans-serif;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            height: 100vh;
-
-            overflow: hidden;
-
-            user-select: none;
-
-            touch-action: none;
-
-        }
-
-        #gameContainer {
-
-            position: relative;
-
-            width: 400px;
-
-            height: 600px;
-
-            background: #e0f4ff;
-
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-
-            border-radius: 12px;
-
-            overflow: hidden;
-
-            touch-action: none;
-
-        }
-
-        canvas {
-
-            display: block;
-
-            background: linear-gradient(to bottom, #87CEEB, #E0F6FF);
-
-            width: 100%;
-
-            height: 100%;
-
-        }
-
-        .screen {
-
-            position: absolute;
-
-            top: 0;
-
-            left: 0;
-
-            width: 100%;
-
-            height: 100%;
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: center;
-
-            align-items: center;
-
-            box-sizing: border-box;
-
-            z-index: 10;
-
-        }
-
-        #startScreen {
-
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-
-            padding: 20px;
-
-            text-align: center;
-
-        }
-
-        h1 {
-
-            color: #ff5722;
-
-            font-size: 32px;
-
-            margin: 0 0 5px 0;
-
-            text-shadow: 2px 2px #ffe0b2;
-
-        }
-
-        .subtitle {
-
-            font-size: 18px;
-
-            color: #795548;
-
-            margin-bottom: 15px;
-
-            font-weight: bold;
-
-            letter-spacing: 2px;
-
-        }
-
-        .watermark {
-
-            font-size: 11px;
-
-            font-weight: bold;
-
-            color: #ff7300;
-
-            text-shadow: 0 0 4px #ffaa00, 0 0 8px #ff5500;
-
-            letter-spacing: 1px;
-
-            margin-top: 8px;
-
-            margin-bottom: 4px;
-
-            animation: pulse Glow 2s infinite ease-in-out;
-
-        }
-
-        @keyframes pulseGlow {
-
-            0% { text-shadow: 0 0 3px #ffaa00, 0 0 6px #ff5500; opacity: 0.9; }
-
-            50% { text-shadow: 0 0 6px #ffaa00, 0 0 12px #ff2600, 0 0 16px #ff0000; opacity: 1; }
-
-            100% { text-shadow: 0 0 3px #ffaa00, 0 0 6px #ff5500; opacity: 0.9; }
-
-        }
-
-        #startBtn {
-
-            padding: 13px 45px;
-
-            font-size: 22px;
-
-            font-weight: bold;
-
-            color: white;
-
-            background: #4caf50;
-
-            border: none;
-
-            border-radius: 50px;
-
-            cursor: pointer;
-
-            box-shadow: 0 6px #2e7d32;
-
-            transition: 0.1s;
-
-            position: relative;
-
-            z-index: 20;
-
-            margin-top: 5px;
-
-        }
-
-        #startBtn:active {
-
-            transform: translateY(4px);
-
-            box-shadow: 0 2px #2e7d32;
-
-        }
-
-        #ui {
-
-            position: absolute;
-
-            top: 15px;
-
-            left: 15px;
-
-            font-size: 20px;
-
-            font-weight: bold;
-
-            color: #333;
-
-            pointer-events: none;
-
-            display: none;
-
-            z-index: 2;
-
-            background: rgba(255, 255, 255, 0.7);
-
-            padding: 5px 12px;
-
-            border-radius: 20px;
-
-        }
-
-        #perfectPopup {
-
-            position: absolute;
-
-            top: 40%;
-
-            left: 50%;
-
-            transform: translate(-50%, -50%) scale(0);
-
-            font-size: 36px;
-
-            font-weight: bold;
-
-            color: #ff1493;
-
-            text-shadow: 2px 2px 0px #fff;
-
-            pointer-events: none;
-
-            z-index: 3;
-
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-        }
-
-        .pop { transform: translate(-50%, -50%) scale(1.3) !important; }
-
-    </style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Birthday Cake Stacker Extreme!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #a3e2ff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            touch-action: none;
+        }
+        #gameContainer {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background: #e0f4ff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            touch-action: none;
+        }
+        canvas {
+            display: block;
+            background: linear-gradient(to bottom, #87CEEB, #E0F6FF);
+            width: 100%;
+            height: 100%;
+        }
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        #startScreen {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #ff5722;
+            font-size: 32px;
+            margin: 0 0 5px 0;
+            text-shadow: 2px 2px #ffe0b2;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #795548;
+            margin-bottom: 15px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .watermark {
+            font-size: 11px;
+            font-weight: bold;
+            color: #ff7300;
+            text-shadow: 0 0 4px #ffaa00, 0 0 8px #ff5500;
+            letter-spacing: 1px;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            animation: pulse Glow 2s infinite ease-in-out;
+        }
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 3px #ffaa00, 0 0 6px #ff5500; opacity: 0.9; }
+            50% { text-shadow: 0 0 6px #ffaa00, 0 0 12px #ff2600, 0 0 16px #ff0000; opacity: 1; }
+            100% { text-shadow: 0 0 3px #ffaa00, 0 0 6px #ff5500; opacity: 0.9; }
+        }
+        #startBtn {
+            padding: 13px 45px;
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            background: #4caf50;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px #2e7d32;
+            transition: 0.1s;
+            position: relative;
+            z-index: 20;
+            margin-top: 5px;
+        }
+        #startBtn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px #2e7d32;
+        }
+        #ui {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            pointer-events: none;
+            display: none;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+        #perfectPopup {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff1493;
+            text-shadow: 2px 2px 0px #fff;
+            pointer-events: none;
+            z-index: 3;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .pop { transform: translate(-50%, -50%) scale(1.3) !important; }
+    </style>
 </head>
-
 <body>
 
-
-
 <div id="gameContainer">
+    <!-- PERFECT ALIGNMENT UI POPUP -->
+    <div id="perfectPopup">PERFECT! +3</div>
 
-    <!-- PERFECT ALIGNMENT UI POPUP -->
+    <!-- START SCREEN -->
+    <div id="startScreen" class="screen">
+        <h1>HAPPY 8TH BIRTHDAY!</h1>
+        <div class="subtitle">🎂 CAKE STACKER 🎂</div>
+        
+        <svg width="240" height="260" viewBox="0 0 240 260" style="margin-bottom:5px;">
+            <circle cx="30" cy="40" r="4" fill="#ffeb3b" />
+            <circle cx="210" cy="50" r="5" fill="#e91e63" />
+            <circle cx="40" cy="180" r="3" fill="#00bcd4" />
+            <circle cx="200" cy="160" r="4" fill="#4caf50" />
+            <g transform="translate(120, 85) rotate(14)">
+                <rect x="-60" y="-15" width="120" height="25" fill="#e91e63" rx="4"/>
+                <path d="M-60,-5 Q-45,5 -30,-5 Q-15,5 0,-5 Q15,5 30,-5 Q45,5 60,-5 L60,-15 L-60,-15 Z" fill="#ffffff"/>
+                <rect x="-45" y="-35" width="90" height="22" fill="#9c27b0" rx="4"/>
+                <path d="M-45,-27 Q-30,-20 -15,-27 Q0,-20 15,-27 Q30,-20 45,-27 L45,-35 L-45,-35 Z" fill="#ffffb2"/>
+                <rect x="-30" y="-53" width="60" height="20" fill="#00bcd4" rx="4"/>
+                <path d="M-30,-47 Q-15,-42 0,-47 Q15,-42 30,-47 L30,-53 L-30,-53 Z" fill="#ffb6c1"/>
+                <path d="M-5,-73 Q0,-78 5,-73 Q5,-65 -5,-61 Q5,-57 5,-49 Q0,-44 -5,-49 Q-10,-57 0,-61 Q-10,-65 -5,-73 Z" fill="none" stroke="#ff9800" stroke-width="4"/>
+                <path d="M0,-77 Q-4,-84 0,-92 Q4,-84 0,-77 Z" fill="#ff5722"/>
+                <path d="M0,-79 Q-2,-83 0,-88 Q2,-83 0,-79 Z" fill="#ffeb3b"/>
+                <line x1="-75" y1="-40" x2="-65" y2="-55" stroke="#795548" stroke-width="2" stroke-dasharray="4,4"/>
+                <line x1="75" y1="-40" x2="65" y2="-55" stroke="#795548" stroke-width="2" stroke-dasharray="4,4"/>
+            </g>
+            <path d="M 85 165 Q 75 160 80 150" fill="none" stroke="#00bcd4" stroke-width="2"/>
+            <path d="M 155 165 Q 165 160 160 150" fill="none" stroke="#00bcd4" stroke-width="2"/>
+            <circle cx="120" cy="180" r="18" fill="#fff" stroke="#2c3e50" stroke-width="4"/> 
+            <ellipse cx="113" cy="176" rx="2" ry="3" fill="#2c3e50"/>
+            <ellipse cx="127" cy="176" rx="2" ry="3" fill="#2c3e50"/>
+            <path d="M 110 168 Q 113 165 116 168" fill="none" stroke="#2c3e50" stroke-width="2"/>
+            <path d="M 124 168 Q 127 165 130 168" fill="none" stroke="#2c3e50" stroke-width="2"/>
+            <path d="M 112 188 Q 120 180 128 188" fill="none" stroke="#e74c3c" stroke-width="3"/>
+            <line x1="120" y1="198" x2="120" y2="245" stroke="#2c3e50" stroke-width="4"/> 
+            <path d="M 120 205 Q 90 195 80 170" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/>
+            <path d="M 120 205 Q 150 195 160 170" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/>
+            <path d="M 120 245 L 105 275" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/>
+            <path d="M 120 245 L 135 275" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/>
+        </svg>
 
-    <div id="perfectPopup">PERFECT! +3</div>
+        <!-- GLOWING ORANGE BRAND WATERMARK -->
+        <div class="watermark">Made by BlaizGamingIndustries</div>
+        
+        <button id="startBtn">START GAME</button>
+    </div>
 
-
-
-    <!-- START SCREEN -->
-
-    <div id="startScreen" class="screen">
-
-        <h1>HAPPY 8TH BIRTHDAY!</h1>
-
-        <div class="subtitle">🎂 CAKE STACKER 🎂</div>
-
-        
-
-        <svg width="240" height="260" viewBox="0 0 240 260" style="margin-bottom:5px;">
-
-            <circle cx="30" cy="40" r="4" fill="#ffeb3b" />
-
-            <circle cx="210" cy="50" r="5" fill="#e91e63" />
-
-            <circle cx="40" cy="180" r="3" fill="#00bcd4" />
-
-            <circle cx="200" cy="160" r="4" fill="#4caf50" />
-
-            <g transform="translate(120, 85) rotate(14)">
-
-                <rect x="-60" y="-15" width="120" height="25" fill="#e91e63" rx="4"/>
-
-                <path d="M-60,-5 Q-45,5 -30,-5 Q-15,5 0,-5 Q15,5 30,-5 Q45,5 60,-5 L60,-15 L-60,-15 Z" fill="#ffffff"/>
-
-                <rect x="-45" y="-35" width="90" height="22" fill="#9c27b0" rx="4"/>
-
-                <path d="M-45,-27 Q-30,-20 -15,-27 Q0,-20 15,-27 Q30,-20 45,-27 L45,-35 L-45,-35 Z" fill="#ffffb2"/>
-
-                <rect x="-30" y="-53" width="60" height="20" fill="#00bcd4" rx="4"/>
-
-                <path d="M-30,-47 Q-15,-42 0,-47 Q15,-42 30,-47 L30,-53 L-30,-53 Z" fill="#ffb6c1"/>
-
-                <path d="M-5,-73 Q0,-78 5,-73 Q5,-65 -5,-61 Q5,-57 5,-49 Q0,-44 -5,-49 Q-10,-57 0,-61 Q-10,-65 -5,-73 Z" fill="none" stroke="#ff9800" stroke-width="4"/>
-
-                <path d="M0,-77 Q-4,-84 0,-92 Q4,-84 0,-77 Z" fill="#ff5722"/>
-
-                <path d="M0,-79 Q-2,-83 0,-88 Q2,-83 0,-79 Z" fill="#ffeb3b"/>
-
-                <line x1="-75" y1="-40" x2="-65" y2="-55" stroke="#795548" stroke-width="2" stroke-dasharray="4,4"/>
-
-                <line x1="75" y1="-40" x2="65" y2="-55" stroke="#795548" stroke-width="2" stroke-dasharray="4,4"/>
-
-            </g>
-
-            <path d="M 85 165 Q 75 160 80 150" fill="none" stroke="#00bcd4" stroke-width="2"/>
-
-            <path d="M 155 165 Q 165 160 160 150" fill="none" stroke="#00bcd4" stroke-width="2"/>
-
-            <circle cx="120" cy="180" r="18" fill="#fff" stroke="#2c3e50" stroke-width="4"/> 
-
-            <ellipse cx="113" cy="176" rx="2" ry="3" fill="#2c3e50"/>
-
-            <ellipse cx="127" cy="176" rx="2" ry="3" fill="#2c3e50"/>
-
-            <path d="M 110 168 Q 113 165 116 168" fill="none" stroke="#2c3e50" stroke-width="2"/>
-
-            <path d="M 124 168 Q 127 165 130 168" fill="none" stroke="#2c3e50" stroke-width="2"/>
-
-            <path d="M 112 188 Q 120 180 128 188" fill="none" stroke="#e74c3c" stroke-width="3"/>
-
-            <line x1="120" y1="198" x2="120" y2="245" stroke="#2c3e50" stroke-width="4"/> 
-
-            <path d="M 120 205 Q 90 195 80 170" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/>
-
-            <path d="M 120 205 Q 150 195 160 170" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/>
-
-            <path d="M 120 245 L 105 275" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/>
-
-            <path d="M 120 245 L 135 275" fill="none" stroke="#2c3e50" stroke-width="4" stroke-linecap="round"/>
-
-        </svg>
-
-
-
-        <!-- GLOWING ORANGE BRAND WATERMARK -->
-
-        <div class="watermark">Made by BlaizGamingIndustries</div>
-
-        
-
-        <button id="startBtn">START GAME</button>
-
-    </div>
-
-
-
-    <!-- GAME CANVAS -->
-
-    <canvas id="gameCanvas" width="400" height="600"></canvas>
-
-    
-
-    <!-- IN-GAME SCORE & HIGHSCORE UI -->
-
-    <div id="ui">Layers: <span id="score">0</span> | Best: <span id="highScore">0</span></div>
-
+    <!-- GAME CANVAS -->
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+    
+    <!-- IN-GAME SCORE & HIGHSCORE UI -->
+    <div id="ui">Layers: <span id="score">0</span> | Best: <span id="highScore">0</span></div>
 </div>
 
-
-
 <script>
-
-    const canvas = document.getElementById('gameCanvas');
-
-    const ctx = canvas.getContext('2d');
-
-    const startScreen = document.getElementById('startScreen');
-
-    const startBtn = document.getElementById('startBtn');
-
-    const ui = document.getElementById('ui');
-
-    const scoreDisplay = document.getElementById('score');
-
-    const highScoreDisplay = document.getElementById('highScore');
-
-    const container = document.getElementById('gameContainer');
-
-    const perfectPopup = document.getElementById('perfectPopup');
-
-
-
-    let gameActive = false;
-
-    let score = 0;
-
-    let highScore = localStorage.getItem('cakeHighScore') ? parseInt(localStorage.getItem('cakeHighScore')) : 0;
-
-    let currentWobble = 0;
-
-    let wobbleSpeed = 0.07;
-
-    
-
-    let claw = {
-
-        x: 200,
-
-        y: 40,
-
-        width: 60,
-
-        speed: 4.0,
-
-        direction: 1
-
-    };
-
-
-
-    let activeLayer = null;
-
-    const plate = { x: 130, y: 530, width: 140, height: 15 };
-
-    let stack = [];
-
-    let fireworks = [];
-
-
-
-    const cakeColors = ['#ff6b6b', '#feca57', '#ff9ff3', '#1dd1a1', '#fa8231', '#a855f7'];
-
-    const frostingColors = ['#ffffff', '#ffb6c1', '#f5f6fa', '#ffeaa7'];
-
-
-
-    highScoreDisplay.innerText = highScore;
-
-
-
-    function createNewLayer() {
-
-        if (score >= 30) {
-
-            activeLayer = null; 
-
-            return;
-
-        }
-
-        const width = Math.max(65, 130 - score * 2.5);
-
-        activeLayer = {
-
-            x: claw.x - width / 2,
-
-            y: claw.y + 20,
-
-            width: width,
-
-            height: 35,
-
-            isDropping: false,
-
-            speedY: 12, 
-
-            color: cakeColors[Math.floor(Math.random() * cakeColors.length)],
-
-            frostingColor: frostingColors[Math.floor(Math.random() * frostingColors.length)],
-
-            offset: 0
-
-        };
-
-    }
-
-
-
-    function triggerDrop(e) {
-
-        if (!gameActive || !activeLayer || activeLayer.isDropping) return;
-
-        if (e) { e.preventDefault(); e.stopPropagation(); }
-
-        activeLayer.isDropping = true;
-
-    }
-
-
-
-    container.addEventListener('touchstart', triggerDrop, { passive: false });
-
-    container.addEventListener('mousedown', triggerDrop);
-
-
-
-    function startGame(e) {
-
-        if (e) { e.preventDefault(); e.stopPropagation(); }
-
-        startScreen.style.display = 'none';
-
-        ui.style.display = 'block';
-
-        resetGame();
-
-        gameActive = true;
-
-        animate();
-
-    }
-
-
-
-    startBtn.addEventListener('touchend', startGame, { passive: false });
-
-    startBtn.addEventListener('click', startGame);
-
-
-
-    function resetGame() {
-
-        score = 0;
-
-        currentWobble = 0;
-
-        scoreDisplay.innerText = score;
-
-        highScoreDisplay.innerText = highScore;
-
-        stack = [];
-
-        fireworks = [];
-
-        claw.speed = 4.0;
-
-        createNewLayer();
-
-    }
-
-
-
-    function spawnFirework() {
-
-        const x = Math.random() * canvas.width;
-
-        const y = Math.random() * (canvas.height / 2);
-
-        const colors = ['#ff0055', '#00ffcc', '#ffcc00', '#ff00ff', '#00ff00'];
-
-        const color = colors[Math.floor(Math.random() * colors.length)];
-
-        
-
-        for (let i = 0; i < 30; i++) {
-
-            const angle = Math.random() * Math.PI * 2;
-
-            const velocity = Math.random() * 5 + 2;
-
-            fireworks.push({
-
-                x: x, y: y,
-
-                vx: Math.cos(angle) * velocity,
-
-                vy: Math.sin(angle) * velocity,
-
-                alpha: 1,
-
-                color: color
-
-            });
-
-        }
-
-    }
-
-
-
-    function handleFireworks() {
-
-        for (let i = fireworks.length - 1; i >= 0; i--) {
-
-            let p = fireworks[i];
-
-            p.x += p.vx;
-
-            p.y += p.vy;
-
-            p.vy += 0.05; 
-
-            p.alpha -= 0.015;
-
-            
-
-            ctx.save();
-
-            ctx.globalAlpha = p.alpha;
-
-            ctx.fillStyle = p.color;
-
-            ctx.beginPath();
-
-            ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-
-            ctx.fill();
-
-            ctx.restore();
-
-
-
-            if (p.alpha <= 0) fireworks.splice(i, 1);
-
-        }
-
-        if (Math.random() < 0.05) spawnFirework();
-
-    }
-
-
-
-    function updateHighScore() {
-
-        if (score > highScore) {
-
-            highScore = score;
-
-            localStorage.setItem('cakeHighScore', highScore);
-
-            highScoreDisplay.innerText = highScore;
-
-        }
-
-    }
-
-
-
-    function animate() {
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-
-
-        let totalOffset = 0;
-
-        stack.forEach((layer) => {
-
-            totalOffset += layer.offset;
-
-        });
-
-        
-
-        if (stack.length > 0 && score < 30 && Math.abs(totalOffset) > 20) {
-
-            let severity = (Math.abs(totalOffset) - 20) / 25; 
-
-            currentWobble = Math.sin(Date.now() * wobbleSpeed) * (severity * 22);
-
-            
-
-            if (Math.abs(totalOffset) > 45) {
-
-                gameOver(`💥 OH NO! The tower got too un-centered, wobbled out of control, and TOPPLED!`);
-
-                return;
-
-            }
-
-        } else {
-
-            currentWobble = 0; 
-
-        }
-
-
-
-        // 1. Draw Plate
-
-        ctx.fillStyle = '#ced6e0';
-
-        ctx.beginPath();
-
-        ctx.ellipse(plate.x + plate.width/2, plate.y + plate.height/2, plate.width/2, plate.height, 0, 0, Math.PI * 2);
-
-        ctx.fill();
-
-
-
-        // 2. Move & Draw Claw
-
-        if (activeLayer && !activeLayer.isDropping) {
-
-            claw.x += claw.speed * claw.direction;
-
-            if (claw.x > canvas.width - 40 || claw.x < 40) claw.direction *= -1;
-
-        }
-
-        
-
-        ctx.strokeStyle = '#2f3542';
-
-        ctx.lineWidth = 3;
-
-        ctx.beginPath();
-
-        ctx.moveTo(claw.x, 0);
-
-        ctx.lineTo(claw.x, claw.y);
-
-        ctx.stroke();
-
-
-
-        ctx.fillStyle = '#747d8c';
-
-        ctx.fillRect(claw.x - 20, claw.y, 40, 10);
-
-        ctx.fillRect(claw.x - 25, claw.y, 8, 20);
-
-        ctx.fillRect(claw.x + 17, claw.y, 8, 20);
-
-
-
-        // 3. Draw Stacked Layers
-
-        stack.forEach((layer, idx) => {
-
-            let wobbleShift = (idx / stack.length) * currentWobble;
-
-            drawCake(layer.x + wobbleShift, layer.y, layer.width, layer.height, layer.color, layer.frostingColor, idx === 29);
-
-        });
-
-
-
-        // 4. Handle Fireworks
-
-        if (score >= 30) {
-
-            handleFireworks();
-
-            if (fireworks.length === 0 && gameActive) {
-
-                gameActive = false;
-
-                updateHighScore();
-
-                alert(`🎉 AMAZING! You reached 30 layers and placed the final birthday candle! Happy 8th Birthday! 🎂`);
-
-                startScreen.style.display = 'flex';
-
-                ui.style.display = 'none';
-
-                return;
-
-            }
-
-        }
-
-
-
-        // 5. Handle Active Layer Drop Physics
-
-        if (activeLayer) {
-
-            if (!activeLayer.isDropping) {
-
-                activeLayer.x = claw.x - activeLayer.width / 2;
-
-            } else {
-
-                activeLayer.y += activeLayer.speedY;
-
-
-
-                let targetY = plate.y - activeLayer.height;
-
-                let targetWidth = plate.width;
-
-                let targetX = plate.x;
-
-                let targetCenterX = plate.x + plate.width / 2;
-
-
-
-                if (stack.length > 0) {
-
-                    const topLayer = stack[stack.length - 1];
-
-                    targetY = topLayer.y - activeLayer.height;
-
-                    targetWidth = topLayer.width;
-
-                    targetX = topLayer.x;
-
-                    targetCenterX = topLayer.x + topLayer.width / 2;
-
-                }
-
-
-
-                if (activeLayer.y >= targetY) {
-
-                    activeLayer.y = targetY;
-
-                    
-
-                    const layerCenter = activeLayer.x + activeLayer.width / 2;
-
-                    const halfW = activeLayer.width / 2;
-
-
-
-                    if (layerCenter + halfW > targetX && layerCenter - halfW < targetX + targetWidth) {
-
-                        let missOffset = layerCenter - targetCenterX;
-
-                        activeLayer.offset = missOffset;
-
-
-
-                        if (Math.abs(missOffset) <= 11) {
-
-                            score += 3; 
-
-                            showPerfectIndicator();
-
-                        } else {
-
-                            score += 1; 
-
-                        }
-
-
-
-                        stack.push(activeLayer);
-
-                        scoreDisplay.innerText = score;
-
-                        updateHighScore();
-
-                        claw.speed += 0.35; 
-
-                        
-
-                        if (stack.length > 5) {
-
-                            stack.forEach(l => l.y += 35);
-
-                        }
-
-                        
-
-                        if (score >= 30) {
-
-                            spawnFirework();
-
-                        } else {
-
-                            createNewLayer();
-
-                        }
-
-                    } else {
-
-                        gameOver(`💥 BOOM! You completely missed the stack and dropped the cake!`);
-
-                    }
-
-                }
-
-            }
-
-            drawCake(activeLayer.x, activeLayer.y, activeLayer.width, activeLayer.height, activeLayer.color, activeLayer.frostingColor, false);
-
-        }
-
-
-
-        if (gameActive || fireworks.length > 0) {
-
-            requestAnimationFrame(animate);
-
-        }
-
-    }
-
-
-
-    function showPerfectIndicator() {
-
-        perfectPopup.classList.add('pop');
-
-        setTimeout(() => {
-
-            perfectPopup.classList.remove('pop');
-
-        }, 600);
-
-    }
-
-
-
-    function drawCake(x, y, w, h, color, frosting, hasCandle) {
-
-        ctx.fillStyle = color;
-
-        ctx.beginPath();
-
-        ctx.roundRect(x, y, w, h, 6);
-
-        ctx.fill();
-
-
-
-        ctx.fillStyle = frosting;
-
-        ctx.fillRect(x, y + 4, w, 8);
-
-        for(let i = 0; i < w; i += 15) {
-
-            ctx.beginPath();
-
-            ctx.arc(x + i + 5, y + 12, 5, 0, Math.PI);
-
-            ctx.fill();
-
-        }
-
-
-
-        if (hasCandle) {
-
-            let cx = x + w / 2;
-
-            ctx.fillStyle = '#ff9800';
-
-            ctx.fillRect(cx - 4, y - 20, 8, 20);
-
-            ctx.fillStyle = '#ff5722';
-
-            ctx.beginPath();
-
-            ctx.arc(cx, y - 25, 5, 0, Math.PI * 2);
-
-            ctx.fill();
-
-            ctx.fillStyle = '#ffeb3b';
-
-            ctx.beginPath();
-
-            ctx.arc(cx, y - 23, 2, 0, Math.PI * 2);
-
-            ctx.fill();
-
-        }
-
-    }
-
-
-
-    function gameOver(message) {
-
-        gameActive = false;
-
-        updateHighScore();
-
-        alert(`${message}\n🎉 Final Score: ${score} points!`);
-
-        startScreen.style.display = 'flex';
-
-        ui.style.display = 'none';
-
-    }
-
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const startScreen = document.getElementById('startScreen');
+    const startBtn = document.getElementById('startBtn');
+    const ui = document.getElementById('ui');
+    const scoreDisplay = document.getElementById('score');
+    const highScoreDisplay = document.getElementById('highScore');
+    const container = document.getElementById('gameContainer');
+    const perfectPopup = document.getElementById('perfectPopup');
+
+    let gameActive = false;
+    let score = 0;
+    let highScore = localStorage.getItem('cakeHighScore') ? parseInt(localStorage.getItem('cakeHighScore')) : 0;
+    let currentWobble = 0;
+    let wobbleSpeed = 0.07;
+    
+    let claw = {
+        x: 200,
+        y: 40,
+        width: 60,
+        speed: 4.0,
+        direction: 1
+    };
+
+    let activeLayer = null;
+    const plate = { x: 130, y: 530, width: 140, height: 15 };
+    let stack = [];
+    let fireworks = [];
+
+    const cakeColors = ['#ff6b6b', '#feca57', '#ff9ff3', '#1dd1a1', '#fa8231', '#a855f7'];
+    const frostingColors = ['#ffffff', '#ffb6c1', '#f5f6fa', '#ffeaa7'];
+
+    highScoreDisplay.innerText = highScore;
+
+    function createNewLayer() {
+        if (score >= 30) {
+            activeLayer = null; 
+            return;
+        }
+        const width = Math.max(65, 130 - score * 2.5);
+        activeLayer = {
+            x: claw.x - width / 2,
+            y: claw.y + 20,
+            width: width,
+            height: 35,
+            isDropping: false,
+            speedY: 12, 
+            color: cakeColors[Math.floor(Math.random() * cakeColors.length)],
+            frostingColor: frostingColors[Math.floor(Math.random() * frostingColors.length)],
+            offset: 0
+        };
+    }
+
+    function triggerDrop(e) {
+        if (!gameActive || !activeLayer || activeLayer.isDropping) return;
+        if (e) { e.preventDefault(); e.stopPropagation(); }
+        activeLayer.isDropping = true;
+    }
+
+    container.addEventListener('touchstart', triggerDrop, { passive: false });
+    container.addEventListener('mousedown', triggerDrop);
+
+    function startGame(e) {
+        if (e) { e.preventDefault(); e.stopPropagation(); }
+        startScreen.style.display = 'none';
+        ui.style.display = 'block';
+        resetGame();
+        gameActive = true;
+        animate();
+    }
+
+    startBtn.addEventListener('touchend', startGame, { passive: false });
+    startBtn.addEventListener('click', startGame);
+
+    function resetGame() {
+        score = 0;
+        currentWobble = 0;
+        scoreDisplay.innerText = score;
+        highScoreDisplay.innerText = highScore;
+        stack = [];
+        fireworks = [];
+        claw.speed = 4.0;
+        createNewLayer();
+    }
+
+    function spawnFirework() {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * (canvas.height / 2);
+        const colors = ['#ff0055', '#00ffcc', '#ffcc00', '#ff00ff', '#00ff00'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        for (let i = 0; i < 30; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 5 + 2;
+            fireworks.push({
+                x: x, y: y,
+                vx: Math.cos(angle) * velocity,
+                vy: Math.sin(angle) * velocity,
+                alpha: 1,
+                color: color
+            });
+        }
+    }
+
+    function handleFireworks() {
+        for (let i = fireworks.length - 1; i >= 0; i--) {
+            let p = fireworks[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.05; 
+            p.alpha -= 0.015;
+            
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            if (p.alpha <= 0) fireworks.splice(i, 1);
+        }
+        if (Math.random() < 0.05) spawnFirework();
+    }
+
+    function updateHighScore() {
+        if (score > highScore) {
+            highScore = score;
+            localStorage.setItem('cakeHighScore', highScore);
+            highScoreDisplay.innerText = highScore;
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        let totalOffset = 0;
+        stack.forEach((layer) => {
+            totalOffset += layer.offset;
+        });
+        
+        if (stack.length > 0 && score < 30 && Math.abs(totalOffset) > 20) {
+            let severity = (Math.abs(totalOffset) - 20) / 25; 
+            currentWobble = Math.sin(Date.now() * wobbleSpeed) * (severity * 22);
+            
+            if (Math.abs(totalOffset) > 45) {
+                gameOver(`💥 OH NO! The tower got too un-centered, wobbled out of control, and TOPPLED!`);
+                return;
+            }
+        } else {
+            currentWobble = 0; 
+        }
+
+        // 1. Draw Plate
+        ctx.fillStyle = '#ced6e0';
+        ctx.beginPath();
+        ctx.ellipse(plate.x + plate.width/2, plate.y + plate.height/2, plate.width/2, plate.height, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 2. Move & Draw Claw
+        if (activeLayer && !activeLayer.isDropping) {
+            claw.x += claw.speed * claw.direction;
+            if (claw.x > canvas.width - 40 || claw.x < 40) claw.direction *= -1;
+        }
+        
+        ctx.strokeStyle = '#2f3542';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(claw.x, 0);
+        ctx.lineTo(claw.x, claw.y);
+        ctx.stroke();
+
+        ctx.fillStyle = '#747d8c';
+        ctx.fillRect(claw.x - 20, claw.y, 40, 10);
+        ctx.fillRect(claw.x - 25, claw.y, 8, 20);
+        ctx.fillRect(claw.x + 17, claw.y, 8, 20);
+
+        // 3. Draw Stacked Layers
+        stack.forEach((layer, idx) => {
+            let wobbleShift = (idx / stack.length) * currentWobble;
+            drawCake(layer.x + wobbleShift, layer.y, layer.width, layer.height, layer.color, layer.frostingColor, idx === 29);
+        });
+
+        // 4. Handle Fireworks
+        if (score >= 30) {
+            handleFireworks();
+            if (fireworks.length === 0 && gameActive) {
+                gameActive = false;
+                updateHighScore();
+                alert(`🎉 AMAZING! You reached 30 layers and placed the final birthday candle! Happy 8th Birthday! 🎂`);
+                startScreen.style.display = 'flex';
+                ui.style.display = 'none';
+                return;
+            }
+        }
+
+        // 5. Handle Active Layer Drop Physics
+        if (activeLayer) {
+            if (!activeLayer.isDropping) {
+                activeLayer.x = claw.x - activeLayer.width / 2;
+            } else {
+                activeLayer.y += activeLayer.speedY;
+
+                let targetY = plate.y - activeLayer.height;
+                let targetWidth = plate.width;
+                let targetX = plate.x;
+                let targetCenterX = plate.x + plate.width / 2;
+
+                if (stack.length > 0) {
+                    const topLayer = stack[stack.length - 1];
+                    targetY = topLayer.y - activeLayer.height;
+                    targetWidth = topLayer.width;
+                    targetX = topLayer.x;
+                    targetCenterX = topLayer.x + topLayer.width / 2;
+                }
+
+                if (activeLayer.y >= targetY) {
+                    activeLayer.y = targetY;
+                    
+                    const layerCenter = activeLayer.x + activeLayer.width / 2;
+                    const halfW = activeLayer.width / 2;
+
+                    if (layerCenter + halfW > targetX && layerCenter - halfW < targetX + targetWidth) {
+                        let missOffset = layerCenter - targetCenterX;
+                        activeLayer.offset = missOffset;
+
+                        if (Math.abs(missOffset) <= 11) {
+                            score += 3; 
+                            showPerfectIndicator();
+                        } else {
+                            score += 1; 
+                        }
+
+                        stack.push(activeLayer);
+                        scoreDisplay.innerText = score;
+                        updateHighScore();
+                        claw.speed += 0.35; 
+                        
+                        if (stack.length > 5) {
+                            stack.forEach(l => l.y += 35);
+                        }
+                        
+                        if (score >= 30) {
+                            spawnFirework();
+                        } else {
+                            createNewLayer();
+                        }
+                    } else {
+                        gameOver(`💥 BOOM! You completely missed the stack and dropped the cake!`);
+                    }
+                }
+            }
+            drawCake(activeLayer.x, activeLayer.y, activeLayer.width, activeLayer.height, activeLayer.color, activeLayer.frostingColor, false);
+        }
+
+        if (gameActive || fireworks.length > 0) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    function showPerfectIndicator() {
+        perfectPopup.classList.add('pop');
+        setTimeout(() => {
+            perfectPopup.classList.remove('pop');
+        }, 600);
+    }
+
+    function drawCake(x, y, w, h, color, frosting, hasCandle) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, 6);
+        ctx.fill();
+
+        ctx.fillStyle = frosting;
+        ctx.fillRect(x, y + 4, w, 8);
+        for(let i = 0; i < w; i += 15) {
+            ctx.beginPath();
+            ctx.arc(x + i + 5, y + 12, 5, 0, Math.PI);
+            ctx.fill();
+        }
+
+        if (hasCandle) {
+            let cx = x + w / 2;
+            ctx.fillStyle = '#ff9800';
+            ctx.fillRect(cx - 4, y - 20, 8, 20);
+            ctx.fillStyle = '#ff5722';
+            ctx.beginPath();
+            ctx.arc(cx, y - 25, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#ffeb3b';
+            ctx.beginPath();
+            ctx.arc(cx, y - 23, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function gameOver(message) {
+        gameActive = false;
+        updateHighScore();
+        alert(`${message}\n🎉 Final Score: ${score} points!`);
+        startScreen.style.display = 'flex';
+        ui.style.display = 'none';
+    }
 </script>
 
-
-
 </body>
-
 </html>
